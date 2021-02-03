@@ -1,12 +1,15 @@
 
-def read_line(path):
-    # Insert code here
-    return None
+def read_line(file_path1, file_path2):
+    data1 = [line.strip() for line in file_path1.readlines()]
+    data2 = [line.strip() for line in file_path2.readlines()]
+    same = set(data1).intersection(data2)
+    return same
 
 
 def read_file(path):
-    # Insert code here
-    return None
+    file = open (path, 'r')
+    texto = file.read()
+    file.close()
 
 
 def compare(file_path1, file_path2):

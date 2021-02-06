@@ -8,4 +8,5 @@
 
 ## Como correrlo:
 
-- Insertar <nombre_folder>/<nombre_tarea>. Ex. db/tarea0
+- Insertar <nombre_folder>/<nombre_tarea>. 
+    Ex. db/tarea0

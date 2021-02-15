@@ -1,5 +1,9 @@
 from os import scandir
 
+# 76/100
+
+# no se hicieron tests de integracion que validen el algoritmo funcionando en conjunto -4
+# no se contempla cambio de variables -20
 
 def read_file(path):
     file = open(path, 'r')
@@ -43,7 +47,7 @@ def read_folder_meta(path):
 
 
 if __name__ == '__main__':
-    base_path = input("Enter a folder:")
+    base_path = input("Enter a folder:")  # pueden usar sys.args
     print(f"==========================Folder: {base_path}==========================")
     for entry0 in read_folder_meta(base_path):
         content0 = read_file(entry0.path)

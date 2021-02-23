@@ -11,7 +11,7 @@ import sys
 def read_file(path):
     """
     :complexity
-        - time: O(1), Dado que solo se ejecuta una instrucción.
+        - time: O(n), Dado que debe recorrer cada caracter.
         - space: O(1), Dado que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
     """
     file = open(path, 'r')

@@ -12,7 +12,7 @@ def read_file(path):
     """
     :complexity
         - time: O(1), Dado que solo se ejecuta una instrucción.
-        - space: O(1), Dado que solo se ejecuta una instrucción de lectura y se almacenara en un variable.
+        - space: O(1), Dado que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
     """
     file = open(path, 'r')
     text = file.read()
@@ -42,7 +42,7 @@ def calculate_similarity(s1, s2, difference):
     """
     :complexity
         - time: O(1), solo se ejecuta una instrucción
-        - space: O(1), solo se ejecuta una instrucción sin craer nuevas variables.
+        - space: O(1), solo se ejecuta una instrucción sin crear nuevas variables.
     """
     return round((1 - (difference / max(len(s1), len(s2)))) * 100, 2)
 
@@ -50,8 +50,8 @@ def calculate_similarity(s1, s2, difference):
 def levenshtein_distance(s1, s2):
     """
     :complexity
-        - time: O(NxM), dado que se comparan todos los elementos dentro de la matrix.
-        - space: O(NxM), porque se genera una matrix para almacenar todas las comparaciones.
+        - time: O(NxM), dado que se comparan todos los elementos dentro de la matriz.
+        - space: O(NxM), porque se genera una matriz para almacenar todas las comparaciones.
     """
     m, n = len(s1) + 1, len(s2) + 1
     d = [[0 for _ in range(n)] for _ in range(m)]
@@ -93,8 +93,8 @@ def read_folder_meta(path):
 def plagiarism_checker(base_path):
     """
     :complexity
-        - time: Pues recorre todos los archivos dentro de folder y se vuelven a recorrer los otra vez para conparar
-        cada uno de ellos entre si. A pesar de que llamos las funcion de comparacion, igualdad y limpieza todas estas
+        - time: Pues recorre todos los archivos dentro de folder y vuelve a recorrer otra vez para comparar
+        cada uno de ellos entre si. A pesar de que llamamos la funcion de comparacion, igualdad y limpieza todas estas
         funciones tiene una complejidad menor a O(n^2) por lo tanto se toma la complejidad mayor.
         - space: O(1), Dado que se utiliza una sola variable para los resultados y no se usa ninguna lista su
         complejidad es constante.

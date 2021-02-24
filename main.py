@@ -12,7 +12,7 @@ def read_file(path):
     """
     :complexity
         - time: O(n), Dado que debe recorrer cada caracter.
-        - space: O(1), Dado que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
+        - space: O(n), Dado que se cuenta como n la por la cantidad de caracteres a pesar de que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
     """
     file = open(path, 'r')
     text = file.read()
@@ -23,10 +23,12 @@ def read_file(path):
 def equalize_functions_n_vars(s):
     """
     :complexity
-        - time: O(n), dado que se recorre 2 veces el string pero estos no estan anidados.
-        - space: O(1), pues no se usan nuevas variables.
+        - time: O(n), dado que se recorre 2 veces el string pero estos no estan anidados. 
+        - space: O(1), pues no se usan regex constates.
+        notes: todo estos procesos requieren previo a la ejecución la creacion del arbol de regex este tiene un costo en time y space O(2^m)
+        ref: https://stackoverflow.com/a/5892130/6872875
     """
-    return re.sub(r"\w+\s+[=]\s+", "var1=", re.sub(r"\bdef\s+\w+\b\(", "func1(", s))
+    return re.sub("(?<=public static void).*?\w+", re.sub(r"\w+\s+[=]\s+", "var1=", re.sub(r"\bdef\s+\w+\b\(", "func1(", s)))
 
 
 def clean(s):
@@ -93,14 +95,17 @@ def read_folder_meta(path):
 def plagiarism_checker(base_path):
     """
     :complexity
-        - time: Pues recorre todos los archivos dentro de folder y vuelve a recorrer otra vez para comparar
-        cada uno de ellos entre si. A pesar de que llamamos la funcion de comparacion, igualdad y limpieza todas estas
-        funciones tiene una complejidad menor a O(n^2) por lo tanto se toma la complejidad mayor.
+        - time: O(N^2 * M * P), dado que este recorre todos los archivos dos veces anidados este es O(n^2) mas la 
+        ejecución del algoritmo de comparación que es N * P.
         - space: O(1), Dado que se utiliza una sola variable para los resultados y no se usa ninguna lista su
         complejidad es constante.
-    :enhance: se puede intentar bajar la complejidad de tiempo algoritmo calculando la comparaciones y almacenando
-    asi sacrificando la complejidad de espacio a O(n) y tratar de bajar la complejidad de tiempo no calculando nueva vez
-    los datos calculados.
+    :enhance: 
+        - Se puede intentar bajar la complejidad de tiempo algoritmo calculando la comparaciones y almacenando
+        asi sacrificando la complejidad de espacio a O(n) y tratar de bajar la complejidad de tiempo no calculando nueva vez
+        los datos calculados. 
+        - Se podria mejorar cambiando el algoritmo de levenshtein distance por uno que se pueda hacer comparaciones en conjunto 
+        - Agregar un proceso de hash para hacer comparaciones previas a la de levenshtein distance y solo correr levenshtein cuando 
+        sea necesaria.
     """
     results = f"==========================Folder: {base_path}==========================\n"
     for entry0 in read_folder_meta(base_path):

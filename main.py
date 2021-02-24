@@ -28,7 +28,12 @@ def equalize_functions_n_vars(s):
         notes: todo estos procesos requieren previo a la ejecución la creacion del arbol de regex este tiene un costo en time y space O(2^m)
         ref: https://stackoverflow.com/a/5892130/6872875
     """
-    return re.sub("(?<=public static void).*?\w+", re.sub(r"\w+\s+[=]\s+", "var1=", re.sub(r"\bdef\s+\w+\b\(", "func1(", s)))
+
+    return re.sub(r"(?<=public static void).*?\w+", " fun1",
+                  re.sub(r"\w+\s+[=]\s+", "var1=",
+                         re.sub(r"\bdef\s+\w+\b\(", "func1(", s)
+                         )
+                  )
 
 
 def clean(s):

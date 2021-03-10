@@ -119,7 +119,14 @@ def plagiarism_checker(base_path):
         for entry1 in read_folder_meta(base_path):
             if entry1.name == entry0.name:
                 continue
+            results += f"\t|_____{entry1.name}\n"
+
             content1 = read_file(entry1.path)
+
+            if equal(clean(content0), clean(content1)):
+                results += f"\t\t\t|_____files are equal\n"
+                results += f"\t\t\t|_____there are 100% of plagiarism\n"
+                continue
 
             diff_with_tap_n_space = levenshtein_distance(content0, content1)
             diff_with_equalize_function = levenshtein_distance(equalize_functions_n_vars(clean(content0)),
@@ -132,13 +139,11 @@ def plagiarism_checker(base_path):
                                                                       diff_with_equalize_function)
             probability = calculate_similarity(clean(content0), clean(content1), diff)
 
-            results += f"\t|_____{entry1.name}\n"
             results += f"\t\t\t|_____there are {probability}% of plagiarism without taps and spaces\n"
             results += f"\t\t\t|_____there are {probability_with_tap_n_space}% of plagiarism with taps and spaces\n"
             results += f"\t\t\t|_____there are {probability_with_equalize_function}% of plagiarism with equalize " \
                        f"functions and variables\n "
-            if equal(clean(content0), clean(content1)):
-                results += f"\t\t\t|_____files are equal\n"
+
             if probability_with_tap_n_space <= 80 and probability >= 50:
                 results += f"\t\t\t|_____is possible that the user try to hide plagiarism with taps and spaces\n"
             if probability_with_tap_n_space <= 80 and probability_with_equalize_function >= 50:

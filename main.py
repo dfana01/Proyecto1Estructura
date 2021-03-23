@@ -12,7 +12,7 @@ def read_file(path):
     """
     :complexity
         - time: O(n), Dado que debe recorrer cada caracter.
-        - space: O(n), Dado que se cuenta como n la por la cantidad de caracteres a pesar de que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
+        - space: O(n), Dado que se cuenta como n por la cantidad de caracteres a pesar de que solo se ejecuta una instrucción de lectura y se almacenara en una variable.
     """
     file = open(path, 'r')
     text = file.read()
@@ -24,7 +24,7 @@ def equalize_functions_n_vars(s):
     """
     :complexity
         - time: O(n), dado que se recorre 2 veces el string pero estos no estan anidados. 
-        - space: O(1), pues no se usan regex constates.
+        - space: O(1), pues no se usan regex constantes.
         notes: todo estos procesos requieren previo a la ejecución la creacion del arbol de regex este tiene un costo en time y space O(2^m)
         ref: https://stackoverflow.com/a/5892130/6872875
     """

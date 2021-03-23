@@ -97,6 +97,35 @@ def read_folder_meta(path):
     return filter(lambda x: x.name.endswith('.java') or x.name.endswith('.c') or x.name.endswith('.py'), scandir(path))
 
 
+plagiarism_score_pre_calculated = dict()
+content_pre_read = dict()
+
+
+def get_content_path(path):
+    if path in content_pre_read:
+        return content_pre_read.get(path)
+    else:
+        content_pre_read[path] = read_file(path)
+        return content_pre_read[path]
+
+
+def get_plagiarism_score_pre_calculated(path0, path1, content0, content1):
+    key0 = f"{path0}{path1}"
+    key1 = f"{path1}{path0}"
+    if key0 in plagiarism_score_pre_calculated:
+        print("get_plagiarism_score_pre_calculated")
+        return plagiarism_score_pre_calculated.get(key0)
+    elif key1 in plagiarism_score_pre_calculated:
+        print("get_plagiarism_score_pre_calculated")
+        return plagiarism_score_pre_calculated.get(key1)
+    else:
+        ct_clean_equalize0 = equalize_functions_n_vars(content0)
+        ct_clean_equalize1 = equalize_functions_n_vars(content1)
+        diff = levenshtein_distance(ct_clean_equalize0, ct_clean_equalize1)
+        plagiarism_score_pre_calculated[key0] = calculate_similarity(ct_clean_equalize0, ct_clean_equalize1, diff)
+        return plagiarism_score_pre_calculated[key0]
+
+
 def plagiarism_checker(base_path):
     """
     :complexity
@@ -114,41 +143,19 @@ def plagiarism_checker(base_path):
     """
     results = f"==========================Folder: {base_path}==========================\n"
     for entry0 in read_folder_meta(base_path):
-        content0 = read_file(entry0.path)
+        content0 = clean(get_content_path(entry0.path))
         results += f"- {entry0.name}\n"
         for entry1 in read_folder_meta(base_path):
             if entry1.name == entry0.name:
                 continue
             results += f"\t|_____{entry1.name}\n"
-
-            content1 = read_file(entry1.path)
-
-            if equal(clean(content0), clean(content1)):
+            content1 = clean(get_content_path(entry1.path))
+            if equal(hash(content0), hash(content1)):
                 results += f"\t\t\t|_____files are equal\n"
                 results += f"\t\t\t|_____there are 100% of plagiarism\n"
                 continue
-
-            diff_with_tap_n_space = levenshtein_distance(content0, content1)
-            diff_with_equalize_function = levenshtein_distance(equalize_functions_n_vars(clean(content0)),
-                                                               equalize_functions_n_vars(clean(content1)))
-            diff = levenshtein_distance(clean(content0), clean(content1))
-
-            probability_with_tap_n_space = calculate_similarity(content0, content1, diff_with_tap_n_space)
-            probability_with_equalize_function = calculate_similarity(equalize_functions_n_vars(clean(content0)),
-                                                                      equalize_functions_n_vars(clean(content1)),
-                                                                      diff_with_equalize_function)
-            probability = calculate_similarity(clean(content0), clean(content1), diff)
-
-            results += f"\t\t\t|_____there are {probability}% of plagiarism without taps and spaces\n"
-            results += f"\t\t\t|_____there are {probability_with_tap_n_space}% of plagiarism with taps and spaces\n"
-            results += f"\t\t\t|_____there are {probability_with_equalize_function}% of plagiarism with equalize " \
-                       f"functions and variables\n "
-
-            if probability_with_tap_n_space <= 80 and probability >= 50:
-                results += f"\t\t\t|_____is possible that the user try to hide plagiarism with taps and spaces\n"
-            if probability_with_tap_n_space <= 80 and probability_with_equalize_function >= 50:
-                results += f"\t\t\t|_____is possible that the user try to hide plagiarism renaming function and/or " \
-                           f"variables\n"
+            score = get_plagiarism_score_pre_calculated(entry0.path, entry1.path, content0, content1)
+            results += f"\t\t\t|_____there are {score}% of plagiarism\n"
     return results
 
 

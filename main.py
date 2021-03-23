@@ -113,10 +113,8 @@ def get_plagiarism_score_pre_calculated(path0, path1, content0, content1):
     key0 = f"{path0}{path1}"
     key1 = f"{path1}{path0}"
     if key0 in plagiarism_score_pre_calculated:
-        print("get_plagiarism_score_pre_calculated")
         return plagiarism_score_pre_calculated.get(key0)
     elif key1 in plagiarism_score_pre_calculated:
-        print("get_plagiarism_score_pre_calculated")
         return plagiarism_score_pre_calculated.get(key1)
     else:
         ct_clean_equalize0 = equalize_functions_n_vars(content0)

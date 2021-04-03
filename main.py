@@ -2,6 +2,8 @@ import re
 from os import scandir
 import sys
 
+# P1B: 90/100
+
 # 76/100
 
 # no se hicieron tests de integracion que validen el algoritmo funcionando en conjunto -4
@@ -40,7 +42,7 @@ def clean(s):
     """
     :complexity
         - time: O(n), dado que se recorre 3 veces el string pero estos no estan anidados.
-        - space: O(1), pues no se usan nuevas variables.
+        - space: O(1), pues no se usan nuevas variables.  # Los string son inmutables, se crean copias de string -5
     """
     return s.replace(" ", "").replace("\t", "").replace("\n", "")
 
@@ -80,7 +82,7 @@ def levenshtein_distance(s1, s2):
 def equal(s1, s2):
     """
     :complexity
-        - time: O(1), Pues solo se comparan dos string.
+        - time: O(1), Pues solo se comparan dos string. # P1B: O(n) Los String con un arreglo de char. -5
         - space:  O(1), Pues no hay nuevas varibles.
     """
     return s1 == s2
